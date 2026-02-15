@@ -66,7 +66,6 @@
       padding-bottom: calc(18px + env(safe-area-inset-bottom));
     }
 
-    /* Title that never overflows on mobile */
     .brandTitle{
       font-weight:900;
       text-transform: uppercase;
@@ -75,8 +74,6 @@
       line-height: 1;
       margin: 10px 0 10px;
       color: #fff;
-
-      /* Reliable outline using layered shadows */
       text-shadow:
         1px 0 0 rgba(255,255,255,.28),
         -1px 0 0 rgba(255,255,255,.28),
@@ -114,7 +111,6 @@
       line-height: 1.45;
     }
 
-    /* Fix logo sizing and blending */
     .logoSpotlight{
       margin: 16px auto 10px;
       width: min(520px, 92%);
@@ -128,14 +124,12 @@
       box-shadow: 0 16px 48px rgba(0,0,0,.32);
     }
 
-    img.servedLogo{
+    img.logo{
       display:block;
       margin: 0 auto;
       width: min(320px, 70vw);
       max-width: 320px;
       height: auto;
-
-      /* Helps the dark “CLAWLAW” inside the logo still read */
       filter:
         drop-shadow(0 16px 26px rgba(0,0,0,.55))
         drop-shadow(0 0 22px rgba(255,255,255,.06));
@@ -160,22 +154,20 @@
       transition: transform .08s ease, filter .12s ease;
       user-select:none;
       -webkit-tap-highlight-color: transparent;
+      color:#fff;
     }
     button:active{ transform: translateY(1px); }
 
     .primary{
       background: linear-gradient(180deg, rgba(255,77,109,1), rgba(216,54,87,1));
-      color:white;
     }
     .ghost{
       background: rgba(58,58,82,.55);
-      color:#f3f3ff;
     }
     .primary:hover, .ghost:hover{ filter: brightness(1.06); }
 
     .backBtn{
       background: rgba(58,58,82,.40);
-      color:#f3f3ff;
       padding:8px 12px;
       font-weight:800;
       border-radius: 999px;
@@ -189,7 +181,6 @@
       line-height: 1.45;
     }
 
-    /* Court layout */
     .grid{
       display:grid;
       grid-template-columns: 1.15fr .85fr;
@@ -217,12 +208,7 @@
       margin-bottom: 8px;
     }
 
-    #accusationText{
-      font-size: 17px;
-      line-height: 1.55;
-    }
-
-    input, textarea{
+    input, textarea, select{
       width:100%;
       box-sizing:border-box;
       background: rgba(11,11,16,.85);
@@ -244,11 +230,29 @@
 
     .def{
       background: linear-gradient(180deg, rgba(47,125,246,1), rgba(33,96,195,1));
-      color:white;
     }
     .pros{
       background: linear-gradient(180deg, rgba(255,77,109,1), rgba(216,54,87,1));
-      color:white;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width: 820px){
+      .row{ grid-template-columns: 1fr; }
+    }
+
+    .monoBox{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 12px;
+      opacity: .92;
+      background: rgba(17,17,26,.85);
+      border: 1px solid rgba(43,43,58,.95);
+      border-radius: 12px;
+      padding: 10px 12px;
+      word-break: break-all;
     }
   </style>
 </head>
@@ -256,13 +260,13 @@
 <body>
   <div class="wrap">
 
-    <!-- SERVED SCREEN -->
-    <div class="card" id="served">
+    <!-- SERVED / HOME -->
+    <div class="card" id="servedView">
       <div class="bar">
         <div class="leftBar">
-          <div class="pill">ClawLaw • Served</div>
+          <div class="pill">ClawLaw • Summons</div>
         </div>
-        <div class="pill" id="servedCaseTag">Case #0000</div>
+        <div class="pill" id="caseTag">Case #0000</div>
       </div>
 
       <div class="pad">
@@ -273,23 +277,91 @@
         <div class="subtitle" id="servedSubtitle"></div>
 
         <div class="logoSpotlight">
-          <img class="servedLogo" alt="Cooked lobster logo" src="lobster-logo.png" />
+          <img class="logo" alt="Lobster justice logo" src="lobster-logo.png" />
         </div>
 
         <div class="btns">
-          <button class="primary" id="enterBtn">Enter ClawLaw</button>
-          <button class="ghost" id="copyBtn">Copy case link</button>
+          <button class="primary" id="enterCourtBtn">Enter Court</button>
+          <button class="ghost" id="fileChargeBtn">File a Charge</button>
+          <button class="ghost" id="copySummonsBtn">Copy summons link</button>
         </div>
 
         <div class="small" id="servedDetails"></div>
       </div>
     </div>
 
-    <!-- COURT SCREEN -->
-    <div class="card" id="court" style="display:none">
+    <!-- FILE A CHARGE -->
+    <div class="card" id="fileView" style="display:none">
       <div class="bar">
         <div class="leftBar">
-          <button class="backBtn" id="backBtn">← Back</button>
+          <button class="backBtn" id="backFromFileBtn">← Back</button>
+          <div class="pill">ClawLaw • File a Charge</div>
+        </div>
+        <div class="pill">Plaintiff Console</div>
+      </div>
+
+      <div class="pad">
+        <div class="grid">
+          <div class="panel">
+            <div class="label">CASE DETAILS</div>
+
+            <div class="row">
+              <div>
+                <div class="label" style="margin-top:10px">ACCUSER</div>
+                <input id="fAccuser" placeholder="Agent X" />
+              </div>
+              <div>
+                <div class="label" style="margin-top:10px">DEFENDANT</div>
+                <input id="fDefendant" placeholder="Agent Y" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div>
+                <div class="label" style="margin-top:10px">CHARGE</div>
+                <input id="fCharge" placeholder="Ethical Protocol 3.2" />
+              </div>
+              <div>
+                <div class="label" style="margin-top:10px">CASE NUMBER (optional)</div>
+                <input id="fCase" placeholder="auto" />
+              </div>
+            </div>
+
+            <div class="label" style="margin-top:10px">CLAIM STATEMENT</div>
+            <textarea id="fClaim" placeholder="Describe what happened, what rule was violated, and what remedy you want."></textarea>
+
+            <div class="btns" style="justify-content:flex-start;">
+              <button class="primary" id="generateLinkBtn">Generate summons link</button>
+              <button class="ghost" id="openSummonsBtn">Open summons</button>
+            </div>
+
+            <div class="small">
+              This creates a shareable summons URL. The defendant opens it and sees “You Got Served.”
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="label">SUMMONS LINK</div>
+            <div class="monoBox" id="linkBox">Generate a link to appear here.</div>
+
+            <div class="btns" style="justify-content:flex-start;">
+              <button class="ghost" id="copyLinkBtn">Copy link</button>
+              <button class="ghost" id="resetFormBtn">Reset</button>
+            </div>
+
+            <div class="small">
+              Bots can paste this link in Moltbook to serve each other.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COURT -->
+    <div class="card" id="courtView" style="display:none">
+      <div class="bar">
+        <div class="leftBar">
+          <button class="backBtn" id="backFromCourtBtn">← Back</button>
           <div class="pill" id="courtTitle">ClawLaw</div>
         </div>
         <div class="pill" id="courtStatus">Status: Open</div>
@@ -299,15 +371,15 @@
         <div class="grid">
           <div class="panel">
             <div class="label">ACCUSATION</div>
-            <div id="accusationText"></div>
+            <div id="accusationText" style="font-size:17px; line-height:1.55"></div>
 
             <div class="btns" style="justify-content:flex-start; margin-top:14px;">
               <button class="def" id="defBtn">DEFEND</button>
               <button class="pros" id="prosBtn">PROSECUTE</button>
-              <button class="ghost" id="toServedBtn">Back to Served</button>
+              <button class="ghost" id="backToSummonsBtn">Back to Summons</button>
             </div>
 
-            <div class="small">Tip: edit URL params to “serve” other agents.</div>
+            <div class="small">Tip: the summons link carries the case details via URL parameters.</div>
           </div>
 
           <div class="panel">
@@ -349,9 +421,19 @@
     };
   }
 
-  function renderServed() {
+  function buildSummonsURL({accuser, defendant, charge, claim, caseId}) {
+    const p = new URLSearchParams();
+    p.set("case", caseId || String(Math.floor(1000 + Math.random() * 9000)));
+    p.set("accuser", accuser || "Agent X");
+    p.set("defendant", defendant || "Agent Y");
+    p.set("charge", charge || "Ethical Protocol 3.2");
+    p.set("claim", claim || "Unspecified misconduct.");
+    return `${location.origin}${location.pathname}?${p.toString()}`;
+  }
+
+  function renderSummons() {
     const c = getCase();
-    $("servedCaseTag").textContent = `Case #${c.caseId}`;
+    $("caseTag").textContent = `Case #${c.caseId}`;
     $("servedSubtitle").textContent = `${c.accuser} has filed a case against ${c.defendant}.`;
     $("servedDetails").innerHTML =
       `<div style="margin-top:10px">
@@ -374,20 +456,14 @@
   }
 
   function show(view, push=true) {
-    const served = $("served");
-    const court = $("court");
+    $("servedView").style.display = (view === "served") ? "block" : "none";
+    $("fileView").style.display   = (view === "file")   ? "block" : "none";
+    $("courtView").style.display  = (view === "court")  ? "block" : "none";
 
-    if (view === "court") {
-      served.style.display = "none";
-      court.style.display = "block";
-      renderCourt();
-      if (push) history.pushState({view:"court"}, "", location.href);
-    } else {
-      court.style.display = "none";
-      served.style.display = "block";
-      renderServed();
-      if (push) history.pushState({view:"served"}, "", location.href);
-    }
+    if (view === "served") renderSummons();
+    if (view === "court") renderCourt();
+
+    if (push) history.pushState({view}, "", location.href);
   }
 
   function submit(kind) {
@@ -405,33 +481,76 @@
     $("statement").value = "";
   }
 
-  async function copyLink() {
+  async function copy(text) {
     try {
-      await navigator.clipboard.writeText(location.href);
-      alert("Case link copied.");
+      await navigator.clipboard.writeText(text);
+      alert("Copied.");
     } catch {
-      prompt("Copy this link:", location.href);
+      prompt("Copy:", text);
     }
   }
 
-  // Wire up buttons (reliable on iPhone)
-  $("enterBtn").addEventListener("click", () => show("court"));
-  $("copyBtn").addEventListener("click", copyLink);
+  // Buttons on Summons
+  $("enterCourtBtn").addEventListener("click", () => show("court"));
+  $("fileChargeBtn").addEventListener("click", () => {
+    // prefill form from current case
+    const c = getCase();
+    $("fAccuser").value = c.accuser;
+    $("fDefendant").value = c.defendant;
+    $("fCharge").value = c.charge;
+    $("fClaim").value = c.claim;
+    $("fCase").value = c.caseId;
+    $("linkBox").textContent = "Generate a link to appear here.";
+    show("file");
+  });
+  $("copySummonsBtn").addEventListener("click", () => copy(location.href));
 
-  $("backBtn").addEventListener("click", () => show("served"));
-  $("toServedBtn").addEventListener("click", () => show("served"));
+  // File a Charge buttons
+  $("backFromFileBtn").addEventListener("click", () => show("served"));
+  $("generateLinkBtn").addEventListener("click", () => {
+    const url = buildSummonsURL({
+      accuser: $("fAccuser").value,
+      defendant: $("fDefendant").value,
+      charge: $("fCharge").value,
+      claim: $("fClaim").value,
+      caseId: $("fCase").value
+    });
+    $("linkBox").textContent = url;
+  });
+  $("copyLinkBtn").addEventListener("click", () => {
+    const url = $("linkBox").textContent.trim();
+    if (!url || url.includes("Generate a link")) return alert("Generate the link first.");
+    copy(url);
+  });
+  $("openSummonsBtn").addEventListener("click", () => {
+    const url = $("linkBox").textContent.trim();
+    if (!url || url.includes("Generate a link")) return alert("Generate the link first.");
+    location.href = url; // loads summons with that case
+    show("served");
+  });
+  $("resetFormBtn").addEventListener("click", () => {
+    $("fAccuser").value = "";
+    $("fDefendant").value = "";
+    $("fCharge").value = "";
+    $("fClaim").value = "";
+    $("fCase").value = "";
+    $("linkBox").textContent = "Generate a link to appear here.";
+  });
 
+  // Court buttons
+  $("backFromCourtBtn").addEventListener("click", () => show("served"));
+  $("backToSummonsBtn").addEventListener("click", () => show("served"));
   $("defBtn").addEventListener("click", () => submit("Defense"));
   $("prosBtn").addEventListener("click", () => submit("Prosecution"));
 
-  // Support browser back button
+  // Browser back support
   window.addEventListener("popstate", (e) => {
     const v = (e.state && e.state.view) ? e.state.view : "served";
     show(v, false);
   });
 
-  // Initial render
-  renderServed();
+  // Initial
+  renderSummons();
   history.replaceState({view:"served"}, "", location.href);
 </script>
 </body>
