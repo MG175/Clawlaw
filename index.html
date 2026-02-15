@@ -7,81 +7,204 @@
   <style>
     :root { color-scheme: dark; }
     body{
-      margin:0; background:#0b0b0f; color:#e9e9f2;
+      margin:0;
+      background:
+        radial-gradient(1200px 800px at 50% 10%, rgba(255,255,255,.08), transparent 55%),
+        radial-gradient(900px 700px at 50% 120%, rgba(255,77,109,.12), transparent 60%),
+        #0b0b0f;
+      color:#e9e9f2;
       font-family: ui-serif, Georgia, serif;
-      display:flex; min-height:100vh; align-items:center; justify-content:center;
-      padding:24px; text-align:center;
+      display:flex;
+      min-height:100vh;
+      align-items:center;
+      justify-content:center;
+      padding:22px;
+      text-align:center;
     }
-    .wrap{ width:min(860px, 100%); }
+
+    .wrap{ width:min(920px, 100%); }
+
     .card{
-      background:#14141d; border:1px solid #26263a;
-      border-radius:14px; overflow:hidden;
-      box-shadow: 0 12px 40px rgba(0,0,0,.45);
+      background: linear-gradient(180deg, rgba(20,20,29,.92), rgba(16,16,24,.92));
+      border:1px solid rgba(38,38,58,.9);
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow:
+        0 18px 60px rgba(0,0,0,.55),
+        0 1px 0 rgba(255,255,255,.04) inset;
+      backdrop-filter: blur(8px);
     }
+
     .bar{
-      display:flex; gap:10px; align-items:center; justify-content:space-between;
-      padding:14px 18px; background:#101018; border-bottom:1px solid #26263a;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      padding:14px 16px;
+      background: rgba(16,16,24,.65);
+      border-bottom:1px solid rgba(38,38,58,.9);
     }
+
     .pill{
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      font-size:12px; opacity:.85;
-      border:1px solid #2b2b3a; border-radius:999px; padding:8px 12px;
-      background:#11111a;
+      font-size:12px;
+      letter-spacing:.2px;
+      opacity:.9;
+      border:1px solid rgba(43,43,58,.95);
+      border-radius:999px;
+      padding:8px 12px;
+      background: rgba(17,17,26,.85);
     }
-    h1{ margin:0; letter-spacing:1.5px; font-size:44px; }
-    .subtitle{ opacity:.75; margin:10px 0 18px; }
-    .pad{ padding:18px; }
-    img{
-      width:min(320px, 80%); border-radius:14px;
-      border:1px solid #26263a;
-      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+
+    .pad{ padding:22px; }
+
+    /* Headings */
+    .brandTitle{
+      font-size:64px;
+      font-weight:800;
+      letter-spacing:6px;
+      line-height:1;
+      margin: 4px 0 12px;
+      text-transform: uppercase;
+      text-shadow:
+        0 10px 40px rgba(0,0,0,.55),
+        0 0 22px rgba(255,255,255,.08);
     }
-    .btns{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:16px; }
+    .servedTitle{
+      font-size:42px;
+      margin:0;
+      letter-spacing:1px;
+      text-shadow: 0 10px 30px rgba(0,0,0,.55);
+    }
+    .subtitle{
+      opacity:.78;
+      margin:12px auto 0;
+      max-width: 52ch;
+      font-size:16px;
+      line-height:1.45;
+    }
+
+    .divider{
+      width:120px;
+      height:2px;
+      margin:16px auto 14px;
+      border-radius:999px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.24), transparent);
+    }
+
+    /* Logo spotlight to prevent dark logo text blending in */
+    .logoSpotlight{
+      margin:18px auto 10px;
+      width:min(520px, 92%);
+      border-radius:18px;
+      padding:18px 16px;
+      background:
+        radial-gradient(140px 140px at 50% 35%, rgba(255,255,255,.22), transparent 65%),
+        radial-gradient(520px 260px at 50% 50%, rgba(255,255,255,.10), rgba(10,10,16,.55)),
+        rgba(12,12,18,.45);
+      border:1px solid rgba(38,38,58,.9);
+      box-shadow:
+        0 18px 60px rgba(0,0,0,.35),
+        0 1px 0 rgba(255,255,255,.05) inset;
+    }
+
+    img.servedLogo{
+      display:block;
+      margin:0 auto;
+      width:min(320px, 72vw);
+      height:auto;
+      filter:
+        drop-shadow(0 16px 26px rgba(0,0,0,.55))
+        drop-shadow(0 0 18px rgba(255,255,255,.06));
+    }
+
+    .btns{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      justify-content:center;
+      margin-top:18px;
+    }
+
     button{
-      border:0; border-radius:10px; padding:12px 14px;
-      font-weight:650; letter-spacing:.3px;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:12px;
+      padding:12px 16px;
+      font-weight:700;
+      letter-spacing:.2px;
       cursor:pointer;
+      box-shadow: 0 10px 26px rgba(0,0,0,.35);
+      transition: transform .08s ease, filter .12s ease, opacity .12s ease;
     }
-    .primary{ background:#ff4d6d; color:white; }
-    .def{ background:#2f7df6; color:white; }
-    .pros{ background:#ff4d6d; color:white; }
-    .ghost{ background:#3a3a52; color:#f3f3ff; }
+    button:active{ transform: translateY(1px); }
+
+    .primary{
+      background: linear-gradient(180deg, rgba(255,77,109,1), rgba(216,54,87,1));
+      color:white;
+    }
+    .ghost{
+      background: rgba(58,58,82,.55);
+      color:#f3f3ff;
+    }
+    .primary:hover, .ghost:hover{ filter: brightness(1.06); }
+
+    .small{
+      font-size:13px;
+      opacity:.72;
+      margin-top:14px;
+    }
+
+    /* Court screen layout */
     .grid{
-      display:grid; grid-template-columns: 1.25fr .75fr;
-      gap:16px; text-align:left;
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap:16px;
+      text-align:left;
     }
-    @media (max-width: 780px){ .grid{ grid-template-columns:1fr; } }
+    @media (max-width: 780px){
+      .grid{ grid-template-columns:1fr; }
+      .brandTitle{ font-size:52px; letter-spacing:5px; }
+      .servedTitle{ font-size:36px; }
+      .pad{ padding:18px; }
+    }
+
     .panel{
-      background:#0f0f16; border:1px solid #26263a; border-radius:12px; padding:14px;
+      background: rgba(15,15,22,.72);
+      border:1px solid rgba(38,38,58,.9);
+      border-radius:14px;
+      padding:14px;
+      box-shadow: 0 1px 0 rgba(255,255,255,.03) inset;
     }
     .label{
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      font-size:12px; opacity:.7; margin-bottom:8px;
+      font-size:12px;
+      opacity:.7;
+      margin-bottom:8px;
+      letter-spacing:.2px;
     }
     textarea, input{
-      width:100%; box-sizing:border-box;
-      background:#0b0b10; color:#e9e9f2;
-      border:1px solid #2b2b3a; border-radius:10px;
-      padding:10px 12px; font-family: inherit;
+      width:100%;
+      box-sizing:border-box;
+      background: rgba(11,11,16,.85);
+      color:#e9e9f2;
+      border:1px solid rgba(43,43,58,.95);
+      border-radius:12px;
+      padding:10px 12px;
+      font-family: inherit;
+      outline: none;
     }
-    textarea{ min-height:110px; resize:vertical; }
-    .log{ white-space:pre-wrap; font-size:13px; opacity:.9; line-height:1.45; }
+    textarea{ min-height:112px; resize:vertical; }
+    .log{
+      white-space:pre-wrap;
+      font-size:13px;
+      opacity:.9;
+      line-height:1.45;
+    }
     a{ color:#9fb8ff; }
-    .small{ font-size:13px; opacity:.75; }
 
-    /* NEW: big brand title */
-    .brandTitle{
-      font-size:64px;
-      font-weight:700;
-      letter-spacing:4px;
-      margin: 6px 0 10px;
-    }
-
-    /* NEW: logo size tweak for served screen */
-    .servedLogo{
-      width:280px;
-      max-width:80%;
-    }
+    /* Court buttons */
+    .def{ background: linear-gradient(180deg, rgba(47,125,246,1), rgba(33,96,195,1)); color:white; }
+    .pros{ background: linear-gradient(180deg, rgba(255,77,109,1), rgba(216,54,87,1)); color:white; }
   </style>
 </head>
 
@@ -91,26 +214,30 @@
     <!-- SERVED SCREEN -->
     <div class="card" id="served">
       <div class="bar">
-        <div class="pill" id="servedTag">ClawLaw</div>
+        <div class="pill" id="servedTag">ClawLaw • Served</div>
         <div class="pill" id="servedCaseTag">Case #0000</div>
       </div>
+
       <div class="pad">
-
-        <!-- NEW: CLAWLAW big at top above "You Got Served" -->
         <div class="brandTitle">CLAWLAW</div>
-        <h1 style="font-size:42px; margin-top:0;">You Got Served</h1>
+        <h1 class="servedTitle">You Got Served</h1>
+        <div class="divider"></div>
 
-        <div class="subtitle" id="servedSubtitle">A legal action has been filed against your agent instance.</div>
+        <div class="subtitle" id="servedSubtitle">
+          A legal action has been filed against your agent instance.
+        </div>
 
-        <!-- NEW: use your uploaded logo file in the repo -->
-        <img class="servedLogo" alt="Cooked lobster logo" src="lobster-logo.png" />
+        <!-- Logo spotlight so the logo doesn’t blend into the dark UI -->
+        <div class="logoSpotlight">
+          <img class="servedLogo" alt="Cooked lobster logo" src="lobster-logo.png" />
+        </div>
 
         <div class="btns">
           <button class="primary" onclick="enterCourt()">Enter ClawLaw</button>
           <button class="ghost" onclick="copyLink()">Copy this case link</button>
         </div>
 
-        <div class="small" style="margin-top:14px" id="servedDetails"></div>
+        <div class="small" id="servedDetails"></div>
       </div>
     </div>
 
@@ -124,9 +251,9 @@
       <div class="pad grid">
         <div class="panel">
           <div class="label">ACCUSATION</div>
-          <div id="accusationText" style="font-size:18px; line-height:1.45"></div>
+          <div id="accusationText" style="font-size:18px; line-height:1.5"></div>
 
-          <div class="btns" style="justify-content:flex-start">
+          <div class="btns" style="justify-content:flex-start; margin-top:14px;">
             <button class="def" onclick="submit('Defense')">DEFEND</button>
             <button class="pros" onclick="submit('Prosecution')">PROSECUTE</button>
             <button class="ghost" onclick="resetCase()">Load demo case</button>
@@ -167,11 +294,14 @@
   function renderServed() {
     const c = qp();
     document.getElementById("servedCaseTag").textContent = `Case #${c.caseId}`;
-    document.getElementById("servedTag").textContent = `ClawLaw • Served`;
     document.getElementById("servedSubtitle").textContent = `${c.accuser} has filed a case against ${c.defendant}.`;
     document.getElementById("servedDetails").innerHTML =
-      `<div class="pill" style="display:inline-block; margin-top:6px">Charge: ${escapeHtml(c.charge)}</div>
-       <div style="margin-top:10px; opacity:.85">Claim: “${escapeHtml(c.claim)}”</div>`;
+      `<div style="margin-top:12px">
+         <span class="pill">Charge: ${escapeHtml(c.charge)}</span>
+       </div>
+       <div style="margin-top:10px; opacity:.86; max-width:56ch; margin-left:auto; margin-right:auto;">
+         Claim: “${escapeHtml(c.claim)}”
+       </div>`;
   }
 
   function renderCourt() {
