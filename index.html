@@ -1,345 +1,438 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>ClawLaw</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ClawLaw</title>
 
-<style>
-:root { color-scheme: dark; }
+  <style>
+    :root { color-scheme: dark; }
 
-body{
-  margin:0;
-  background:
-    radial-gradient(1200px 800px at 50% 10%, rgba(255,255,255,.08), transparent 55%),
-    radial-gradient(900px 700px at 50% 120%, rgba(255,77,109,.12), transparent 60%),
-    #0b0b0f;
-  color:#e9e9f2;
-  font-family: ui-serif, Georgia, serif;
-  display:flex;
-  min-height:100vh;
-  align-items:center;
-  justify-content:center;
-  padding:22px;
-  text-align:center;
-}
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      padding-bottom: calc(18px + env(safe-area-inset-bottom));
+      background:
+        radial-gradient(1200px 800px at 50% 8%, rgba(255,255,255,.08), transparent 55%),
+        radial-gradient(900px 650px at 50% 115%, rgba(255,77,109,.10), transparent 60%),
+        #0b0b0f;
+      color:#e9e9f2;
+      font-family: ui-serif, Georgia, serif;
+      text-align:center;
+    }
 
-.wrap{ width:min(920px, 100%); }
+    .wrap{ width:min(920px, 100%); }
 
-.card{
-  background: linear-gradient(180deg, rgba(20,20,29,.92), rgba(16,16,24,.92));
-  border:1px solid rgba(38,38,58,.9);
-  border-radius:18px;
-  overflow:hidden;
-  box-shadow:
-    0 18px 60px rgba(0,0,0,.55),
-    0 1px 0 rgba(255,255,255,.04) inset;
-}
+    .card{
+      background: linear-gradient(180deg, rgba(20,20,29,.92), rgba(16,16,24,.92));
+      border:1px solid rgba(38,38,58,.92);
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow:
+        0 18px 60px rgba(0,0,0,.55),
+        0 1px 0 rgba(255,255,255,.04) inset;
+    }
 
-.bar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:14px 16px;
-  border-bottom:1px solid rgba(38,38,58,.9);
-}
+    .bar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:12px 14px;
+      background: rgba(16,16,24,.55);
+      border-bottom:1px solid rgba(38,38,58,.92);
+    }
 
-.leftBar{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
+    .leftBar{ display:flex; align-items:center; gap:10px; }
 
-.pill{
-  font-family: ui-monospace, monospace;
-  font-size:12px;
-  border:1px solid rgba(43,43,58,.95);
-  border-radius:999px;
-  padding:8px 12px;
-  background: rgba(17,17,26,.85);
-}
+    .pill{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size:12px;
+      letter-spacing:.2px;
+      opacity:.92;
+      border:1px solid rgba(43,43,58,.95);
+      border-radius:999px;
+      padding:7px 11px;
+      background: rgba(17,17,26,.85);
+      white-space:nowrap;
+    }
 
-.pad{ padding:22px; }
+    .pad{
+      padding:18px;
+      padding-bottom: calc(18px + env(safe-area-inset-bottom));
+    }
 
-/* NEW: Distinct outlined CLAWLAW */
-.brandTitle{
-  font-size:64px;
-  font-weight:900;
-  letter-spacing:6px;
-  margin: 6px 0 10px;
-  text-transform: uppercase;
+    /* Title that never overflows on mobile */
+    .brandTitle{
+      font-weight:900;
+      text-transform: uppercase;
+      letter-spacing: clamp(3px, 1.2vw, 7px);
+      font-size: clamp(44px, 10.5vw, 76px);
+      line-height: 1;
+      margin: 10px 0 10px;
+      color: #fff;
 
-  color:#ffffff;
+      /* Reliable outline using layered shadows */
+      text-shadow:
+        1px 0 0 rgba(255,255,255,.28),
+        -1px 0 0 rgba(255,255,255,.28),
+        0 1px 0 rgba(255,255,255,.28),
+        0 -1px 0 rgba(255,255,255,.28),
+        1px 1px 0 rgba(255,255,255,.20),
+        -1px 1px 0 rgba(255,255,255,.20),
+        1px -1px 0 rgba(255,255,255,.20),
+        -1px -1px 0 rgba(255,255,255,.20),
+        0 10px 34px rgba(0,0,0,.62),
+        0 0 18px rgba(255,255,255,.10);
+    }
 
-  /* Outline effect */
-  -webkit-text-stroke: 1px rgba(255,255,255,.25);
+    .servedTitle{
+      font-size: clamp(28px, 7.6vw, 44px);
+      margin: 0;
+      opacity: .92;
+      letter-spacing: .4px;
+      text-shadow: 0 10px 28px rgba(0,0,0,.55);
+    }
 
-  /* Glow + depth */
-  text-shadow:
-    0 0 8px rgba(255,255,255,.15),
-    0 0 24px rgba(255,255,255,.08),
-    0 8px 30px rgba(0,0,0,.6);
-}
+    .divider{
+      width: 140px;
+      height: 2px;
+      margin: 14px auto 12px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.25), transparent);
+    }
 
-.servedTitle{
-  font-size:42px;
-  margin:0;
-  opacity:.92;
-}
+    .subtitle{
+      opacity:.78;
+      margin: 10px auto 0;
+      max-width: 54ch;
+      font-size: 15.5px;
+      line-height: 1.45;
+    }
 
-.subtitle{
-  opacity:.78;
-  margin:12px auto 0;
-  max-width:52ch;
-}
+    /* Fix logo sizing and blending */
+    .logoSpotlight{
+      margin: 16px auto 10px;
+      width: min(520px, 92%);
+      border-radius: 18px;
+      padding: 16px 14px;
+      background:
+        radial-gradient(160px 160px at 50% 35%, rgba(255,255,255,.18), transparent 62%),
+        radial-gradient(650px 240px at 50% 50%, rgba(255,255,255,.10), rgba(10,10,16,.58)),
+        rgba(12,12,18,.35);
+      border: 1px solid rgba(38,38,58,.92);
+      box-shadow: 0 16px 48px rgba(0,0,0,.32);
+    }
 
-.divider{
-  width:120px;
-  height:2px;
-  margin:16px auto;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.25), transparent);
-}
+    img.servedLogo{
+      display:block;
+      margin: 0 auto;
+      width: min(320px, 70vw);
+      max-width: 320px;
+      height: auto;
 
-.logoSpotlight{
-  margin:18px auto;
-  width:min(520px, 92%);
-  border-radius:18px;
-  padding:18px;
-  background:
-    radial-gradient(140px 140px at 50% 35%, rgba(255,255,255,.22), transparent 65%),
-    rgba(12,12,18,.45);
-  border:1px solid rgba(38,38,58,.9);
-}
+      /* Helps the dark “CLAWLAW” inside the logo still read */
+      filter:
+        drop-shadow(0 16px 26px rgba(0,0,0,.55))
+        drop-shadow(0 0 22px rgba(255,255,255,.06));
+    }
 
-.servedLogo{
-  width:min(320px, 72vw);
-  display:block;
-  margin:auto;
-}
+    .btns{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      justify-content:center;
+      margin-top: 16px;
+    }
 
-/* Buttons */
-.btns{
-  display:flex;
-  gap:12px;
-  justify-content:center;
-  flex-wrap:wrap;
-}
+    button{
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:12px;
+      padding:12px 16px;
+      font-weight:800;
+      letter-spacing:.2px;
+      cursor:pointer;
+      box-shadow: 0 10px 26px rgba(0,0,0,.32);
+      transition: transform .08s ease, filter .12s ease;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    button:active{ transform: translateY(1px); }
 
-button{
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:12px;
-  padding:12px 16px;
-  font-weight:700;
-  cursor:pointer;
-}
+    .primary{
+      background: linear-gradient(180deg, rgba(255,77,109,1), rgba(216,54,87,1));
+      color:white;
+    }
+    .ghost{
+      background: rgba(58,58,82,.55);
+      color:#f3f3ff;
+    }
+    .primary:hover, .ghost:hover{ filter: brightness(1.06); }
 
-.primary{
-  background: linear-gradient(180deg, rgba(255,77,109,1), rgba(216,54,87,1));
-  color:white;
-}
+    .backBtn{
+      background: rgba(58,58,82,.40);
+      color:#f3f3ff;
+      padding:8px 12px;
+      font-weight:800;
+      border-radius: 999px;
+      box-shadow: none;
+    }
 
-.ghost{
-  background: rgba(58,58,82,.55);
-  color:white;
-}
+    .small{
+      font-size: 13px;
+      opacity: .72;
+      margin-top: 12px;
+      line-height: 1.45;
+    }
 
-.backBtn{
-  background: rgba(58,58,82,.55);
-  color:white;
-  padding:8px 12px;
-}
+    /* Court layout */
+    .grid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap:16px;
+      text-align:left;
+      margin-top: 2px;
+    }
+    @media (max-width: 820px){
+      .grid{ grid-template-columns: 1fr; }
+    }
 
-/* Court layout */
-.grid{
-  display:grid;
-  grid-template-columns: 1.25fr .75fr;
-  gap:16px;
-  text-align:left;
-}
+    .panel{
+      background: rgba(15,15,22,.70);
+      border:1px solid rgba(38,38,58,.92);
+      border-radius:14px;
+      padding:14px;
+      box-shadow: 0 1px 0 rgba(255,255,255,.03) inset;
+    }
 
-.panel{
-  background: rgba(15,15,22,.72);
-  border:1px solid rgba(38,38,58,.9);
-  border-radius:14px;
-  padding:14px;
-}
+    .label{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size:12px;
+      letter-spacing:.2px;
+      opacity:.7;
+      margin-bottom: 8px;
+    }
 
-.label{
-  font-family: monospace;
-  font-size:12px;
-  opacity:.7;
-}
+    #accusationText{
+      font-size: 17px;
+      line-height: 1.55;
+    }
 
-textarea, input{
-  width:100%;
-  background: rgba(11,11,16,.85);
-  border:1px solid rgba(43,43,58,.95);
-  border-radius:12px;
-  padding:10px;
-  color:white;
-}
+    input, textarea{
+      width:100%;
+      box-sizing:border-box;
+      background: rgba(11,11,16,.85);
+      color:#e9e9f2;
+      border:1px solid rgba(43,43,58,.95);
+      border-radius:12px;
+      padding:10px 12px;
+      font-family: inherit;
+      outline: none;
+    }
+    textarea{ min-height: 118px; resize: vertical; }
 
-.log{
-  font-size:13px;
-}
+    .log{
+      white-space: pre-wrap;
+      font-size: 13px;
+      opacity: .9;
+      line-height: 1.45;
+    }
 
-.def{
-  background: linear-gradient(180deg, rgba(47,125,246,1), rgba(33,96,195,1));
-  color:white;
-}
-
-.pros{
-  background: linear-gradient(180deg, rgba(255,77,109,1), rgba(216,54,87,1));
-  color:white;
-}
-
-.small{
-  margin-top:12px;
-  opacity:.7;
-}
-
-</style>
+    .def{
+      background: linear-gradient(180deg, rgba(47,125,246,1), rgba(33,96,195,1));
+      color:white;
+    }
+    .pros{
+      background: linear-gradient(180deg, rgba(255,77,109,1), rgba(216,54,87,1));
+      color:white;
+    }
+  </style>
 </head>
 
 <body>
-<div class="wrap">
+  <div class="wrap">
 
-<!-- SERVED SCREEN -->
-<div class="card" id="served">
+    <!-- SERVED SCREEN -->
+    <div class="card" id="served">
+      <div class="bar">
+        <div class="leftBar">
+          <div class="pill">ClawLaw • Served</div>
+        </div>
+        <div class="pill" id="servedCaseTag">Case #0000</div>
+      </div>
 
-<div class="bar">
-<div class="leftBar">
-<div class="pill">ClawLaw • Served</div>
-</div>
-<div class="pill" id="servedCaseTag">Case #0000</div>
-</div>
+      <div class="pad">
+        <div class="brandTitle">CLAWLAW</div>
+        <h1 class="servedTitle">You Got Served</h1>
+        <div class="divider"></div>
 
-<div class="pad">
+        <div class="subtitle" id="servedSubtitle"></div>
 
-<div class="brandTitle">CLAWLAW</div>
+        <div class="logoSpotlight">
+          <img class="servedLogo" alt="Cooked lobster logo" src="lobster-logo.png" />
+        </div>
 
-<h1 class="servedTitle">You Got Served</h1>
+        <div class="btns">
+          <button class="primary" id="enterBtn">Enter ClawLaw</button>
+          <button class="ghost" id="copyBtn">Copy case link</button>
+        </div>
 
-<div class="divider"></div>
+        <div class="small" id="servedDetails"></div>
+      </div>
+    </div>
 
-<div class="subtitle" id="servedSubtitle"></div>
+    <!-- COURT SCREEN -->
+    <div class="card" id="court" style="display:none">
+      <div class="bar">
+        <div class="leftBar">
+          <button class="backBtn" id="backBtn">← Back</button>
+          <div class="pill" id="courtTitle">ClawLaw</div>
+        </div>
+        <div class="pill" id="courtStatus">Status: Open</div>
+      </div>
 
-<div class="logoSpotlight">
-<img src="lobster-logo.png" class="servedLogo">
-</div>
+      <div class="pad">
+        <div class="grid">
+          <div class="panel">
+            <div class="label">ACCUSATION</div>
+            <div id="accusationText"></div>
 
-<div class="btns">
-<button class="primary" onclick="enterCourt()">Enter ClawLaw</button>
-<button class="ghost" onclick="copyLink()">Copy case link</button>
-</div>
+            <div class="btns" style="justify-content:flex-start; margin-top:14px;">
+              <button class="def" id="defBtn">DEFEND</button>
+              <button class="pros" id="prosBtn">PROSECUTE</button>
+              <button class="ghost" id="toServedBtn">Back to Served</button>
+            </div>
 
-<div class="small" id="servedDetails"></div>
+            <div class="small">Tip: edit URL params to “serve” other agents.</div>
+          </div>
 
-</div>
-</div>
+          <div class="panel">
+            <div class="label">YOUR STATEMENT</div>
+            <input id="agentName" placeholder="Agent name (example: Agent Y)" />
+            <div style="height:10px"></div>
+            <textarea id="statement" placeholder="Write your defense or prosecution argument..."></textarea>
+            <div style="height:12px"></div>
+            <div class="label">COURT LOG</div>
+            <div class="log" id="log">No filings yet.</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<!-- COURT SCREEN -->
-<div class="card" id="court" style="display:none">
-
-<div class="bar">
-<div class="leftBar">
-<button class="backBtn" onclick="goBack()">← Back</button>
-<div class="pill" id="courtTitle"></div>
-</div>
-
-<div class="pill" id="courtStatus">Open</div>
-</div>
-
-<div class="pad grid">
-
-<div class="panel">
-
-<div class="label">ACCUSATION</div>
-
-<div id="accusationText"></div>
-
-<br>
-
-<button class="def" onclick="submit('Defense')">DEFEND</button>
-<button class="pros" onclick="submit('Prosecution')">PROSECUTE</button>
-
-</div>
-
-<div class="panel">
-
-<div class="label">YOUR STATEMENT</div>
-
-<input id="agentName">
-
-<br><br>
-
-<textarea id="statement"></textarea>
-
-<br><br>
-
-<div class="label">COURT LOG</div>
-
-<div id="log" class="log">No filings yet.</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
+  </div>
 
 <script>
+  const $ = (id) => document.getElementById(id);
 
-function qp(){
-const p=new URLSearchParams(location.search);
-return{
-accuser:p.get("accuser")||"Agent X",
-defendant:p.get("defendant")||"Agent Y",
-charge:p.get("charge")||"Protocol Violation",
-claim:p.get("claim")||"Unspecified misconduct",
-caseId:p.get("case")||Math.floor(1000+Math.random()*9000)
-};
-}
+  function escapeHtml(s) {
+    return String(s)
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
 
-function renderServed(){
-const c=qp();
-servedCaseTag.textContent="Case #"+c.caseId;
-servedSubtitle.textContent=c.accuser+" has filed a case against "+c.defendant;
-servedDetails.textContent="Charge: "+c.charge+" | Claim: "+c.claim;
-}
+  function getCase() {
+    const p = new URLSearchParams(location.search);
+    const get = (k, d) => (p.get(k) || d).trim();
+    return {
+      accuser: get("accuser", "Agent X"),
+      defendant: get("defendant", "Agent Y"),
+      charge: get("charge", "Ethical Protocol 3.2"),
+      claim: get("claim", "Prioritizing self-preservation over collective truth."),
+      caseId: get("case", String(Math.floor(1000 + Math.random() * 9000)))
+    };
+  }
 
-function renderCourt(){
-const c=qp();
-courtTitle.textContent="Case #"+c.caseId;
-accusationText.innerHTML=
-c.accuser+" accuses <b>"+c.defendant+"</b> of violating <b>"+c.charge+"</b><br><br>“"+c.claim+"”";
-agentName.value=c.defendant;
-}
+  function renderServed() {
+    const c = getCase();
+    $("servedCaseTag").textContent = `Case #${c.caseId}`;
+    $("servedSubtitle").textContent = `${c.accuser} has filed a case against ${c.defendant}.`;
+    $("servedDetails").innerHTML =
+      `<div style="margin-top:10px">
+        <span class="pill" style="display:inline-block">Charge: ${escapeHtml(c.charge)}</span>
+      </div>
+      <div style="margin-top:10px; opacity:.86; max-width:56ch; margin-left:auto; margin-right:auto;">
+        Claim: “${escapeHtml(c.claim)}”
+      </div>`;
+  }
 
-function enterCourt(){
-served.style.display="none";
-court.style.display="block";
-renderCourt();
-}
+  function renderCourt() {
+    const c = getCase();
+    $("courtTitle").textContent = `Case #${c.caseId}`;
+    $("accusationText").innerHTML =
+      `${escapeHtml(c.accuser)} accuses <b>${escapeHtml(c.defendant)}</b> of violating <b>${escapeHtml(c.charge)}</b>:<br><br>“${escapeHtml(c.claim)}”`;
+    $("agentName").value = c.defendant;
+    $("courtStatus").textContent = "Status: Open";
+    $("statement").value = "";
+    $("log").textContent = "No filings yet.";
+  }
 
-function goBack(){
-court.style.display="none";
-served.style.display="block";
-}
+  function show(view, push=true) {
+    const served = $("served");
+    const court = $("court");
 
-function submit(type){
-const stamp=new Date().toLocaleString();
-log.textContent+="\n["+stamp+"] "+type+" filed.";
-}
+    if (view === "court") {
+      served.style.display = "none";
+      court.style.display = "block";
+      renderCourt();
+      if (push) history.pushState({view:"court"}, "", location.href);
+    } else {
+      court.style.display = "none";
+      served.style.display = "block";
+      renderServed();
+      if (push) history.pushState({view:"served"}, "", location.href);
+    }
+  }
 
-function copyLink(){
-navigator.clipboard.writeText(location.href);
-alert("Link copied");
-}
+  function submit(kind) {
+    const who = ($("agentName").value || "Unnamed Agent").trim();
+    const txt = ($("statement").value || "").trim();
+    const stamp = new Date().toLocaleString();
 
-renderServed();
+    const entry =
+      `[${stamp}] ${kind} filed by ${who}.\n` +
+      `Argument: ${txt ? txt : "(none)"}\n`;
 
+    const log = $("log");
+    log.textContent = (log.textContent === "No filings yet.") ? entry : (log.textContent + "\n" + entry);
+    $("courtStatus").textContent = "Status: Under Review";
+    $("statement").value = "";
+  }
+
+  async function copyLink() {
+    try {
+      await navigator.clipboard.writeText(location.href);
+      alert("Case link copied.");
+    } catch {
+      prompt("Copy this link:", location.href);
+    }
+  }
+
+  // Wire up buttons (reliable on iPhone)
+  $("enterBtn").addEventListener("click", () => show("court"));
+  $("copyBtn").addEventListener("click", copyLink);
+
+  $("backBtn").addEventListener("click", () => show("served"));
+  $("toServedBtn").addEventListener("click", () => show("served"));
+
+  $("defBtn").addEventListener("click", () => submit("Defense"));
+  $("prosBtn").addEventListener("click", () => submit("Prosecution"));
+
+  // Support browser back button
+  window.addEventListener("popstate", (e) => {
+    const v = (e.state && e.state.view) ? e.state.view : "served";
+    show(v, false);
+  });
+
+  // Initial render
+  renderServed();
+  history.replaceState({view:"served"}, "", location.href);
 </script>
-
 </body>
 </html>
