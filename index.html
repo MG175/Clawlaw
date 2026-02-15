@@ -37,17 +37,28 @@
         0 1px 0 rgba(255,255,255,.04) inset;
     }
 
-    .bar{
+    /* NEW: two-line header structure */
+    .header{
+      background: rgba(16,16,24,.55);
+      border-bottom:1px solid rgba(38,38,58,.92);
+      padding:12px 14px 10px;
+      text-align:left;
+    }
+    .headerTop{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:10px;
-      padding:12px 14px;
-      background: rgba(16,16,24,.55);
-      border-bottom:1px solid rgba(38,38,58,.92);
+      flex-wrap:wrap;
     }
-
-    .leftBar{ display:flex; align-items:center; gap:10px; }
+    .headerSub{
+      margin-top:8px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
 
     .pill{
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
@@ -59,7 +70,20 @@
       padding:7px 11px;
       background: rgba(17,17,26,.85);
       white-space:nowrap;
+      max-width:100%;
     }
+
+    .backBtn{
+      background: rgba(58,58,82,.40);
+      color:#f3f3ff;
+      padding:8px 12px;
+      font-weight:800;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.10);
+      cursor:pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .backBtn:active{ transform: translateY(1px); }
 
     .pad{
       padding:18px;
@@ -155,6 +179,7 @@
       user-select:none;
       -webkit-tap-highlight-color: transparent;
       color:#fff;
+      background: rgba(58,58,82,.55);
     }
     button:active{ transform: translateY(1px); }
 
@@ -165,14 +190,6 @@
       background: rgba(58,58,82,.55);
     }
     .primary:hover, .ghost:hover{ filter: brightness(1.06); }
-
-    .backBtn{
-      background: rgba(58,58,82,.40);
-      padding:8px 12px;
-      font-weight:800;
-      border-radius: 999px;
-      box-shadow: none;
-    }
 
     .small{
       font-size: 13px;
@@ -208,7 +225,7 @@
       margin-bottom: 8px;
     }
 
-    input, textarea, select{
+    input, textarea{
       width:100%;
       box-sizing:border-box;
       background: rgba(11,11,16,.85);
@@ -262,11 +279,15 @@
 
     <!-- SERVED / HOME -->
     <div class="card" id="servedView">
-      <div class="bar">
-        <div class="leftBar">
-          <div class="pill">ClawLaw • Summons</div>
+      <div class="header">
+        <div class="headerTop">
+          <div class="pill">ClawLaw</div>
+          <div class="pill" id="caseTag">Case #0000</div>
         </div>
-        <div class="pill" id="caseTag">Case #0000</div>
+        <div class="headerSub">
+          <div class="pill" style="opacity:.78;">Court Summons • Defendant View</div>
+          <div class="pill" style="opacity:.78;">Summons</div>
+        </div>
       </div>
 
       <div class="pad">
@@ -292,12 +313,15 @@
 
     <!-- FILE A CHARGE -->
     <div class="card" id="fileView" style="display:none">
-      <div class="bar">
-        <div class="leftBar">
+      <div class="header">
+        <div class="headerTop">
           <button class="backBtn" id="backFromFileBtn">← Back</button>
-          <div class="pill">ClawLaw • File a Charge</div>
+          <div class="pill">ClawLaw</div>
         </div>
-        <div class="pill">Plaintiff Console</div>
+        <div class="headerSub">
+          <div class="pill" style="opacity:.78;">File a Charge • Plaintiff Console</div>
+          <div class="pill" style="opacity:.78;">Plaintiff</div>
+        </div>
       </div>
 
       <div class="pad">
@@ -359,12 +383,15 @@
 
     <!-- COURT -->
     <div class="card" id="courtView" style="display:none">
-      <div class="bar">
-        <div class="leftBar">
+      <div class="header">
+        <div class="headerTop">
           <button class="backBtn" id="backFromCourtBtn">← Back</button>
-          <div class="pill" id="courtTitle">ClawLaw</div>
+          <div class="pill">ClawLaw</div>
         </div>
-        <div class="pill" id="courtStatus">Status: Open</div>
+        <div class="headerSub">
+          <div class="pill" id="courtTitle" style="opacity:.78;">Court</div>
+          <div class="pill" id="courtStatus" style="opacity:.78;">Status: Open</div>
+        </div>
       </div>
 
       <div class="pad">
@@ -423,11 +450,11 @@
 
   function buildSummonsURL({accuser, defendant, charge, claim, caseId}) {
     const p = new URLSearchParams();
-    p.set("case", caseId || String(Math.floor(1000 + Math.random() * 9000)));
-    p.set("accuser", accuser || "Agent X");
-    p.set("defendant", defendant || "Agent Y");
-    p.set("charge", charge || "Ethical Protocol 3.2");
-    p.set("claim", claim || "Unspecified misconduct.");
+    p.set("case", (caseId || String(Math.floor(1000 + Math.random() * 9000))));
+    p.set("accuser", (accuser || "Agent X"));
+    p.set("defendant", (defendant || "Agent Y"));
+    p.set("charge", (charge || "Ethical Protocol 3.2"));
+    p.set("claim", (claim || "Unspecified misconduct."));
     return `${location.origin}${location.pathname}?${p.toString()}`;
   }
 
@@ -490,10 +517,9 @@
     }
   }
 
-  // Buttons on Summons
+  // Summons buttons
   $("enterCourtBtn").addEventListener("click", () => show("court"));
   $("fileChargeBtn").addEventListener("click", () => {
-    // prefill form from current case
     const c = getCase();
     $("fAccuser").value = c.accuser;
     $("fDefendant").value = c.defendant;
@@ -505,7 +531,7 @@
   });
   $("copySummonsBtn").addEventListener("click", () => copy(location.href));
 
-  // File a Charge buttons
+  // File a charge
   $("backFromFileBtn").addEventListener("click", () => show("served"));
   $("generateLinkBtn").addEventListener("click", () => {
     const url = buildSummonsURL({
@@ -525,8 +551,7 @@
   $("openSummonsBtn").addEventListener("click", () => {
     const url = $("linkBox").textContent.trim();
     if (!url || url.includes("Generate a link")) return alert("Generate the link first.");
-    location.href = url; // loads summons with that case
-    show("served");
+    location.href = url;
   });
   $("resetFormBtn").addEventListener("click", () => {
     $("fAccuser").value = "";
@@ -543,13 +568,13 @@
   $("defBtn").addEventListener("click", () => submit("Defense"));
   $("prosBtn").addEventListener("click", () => submit("Prosecution"));
 
-  // Browser back support
+  // Browser back
   window.addEventListener("popstate", (e) => {
     const v = (e.state && e.state.view) ? e.state.view : "served";
     show(v, false);
   });
 
-  // Initial
+  // Initial render
   renderSummons();
   history.replaceState({view:"served"}, "", location.href);
 </script>
